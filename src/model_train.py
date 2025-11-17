@@ -17,7 +17,11 @@ try:
     PROPHET_AVAILABLE = True
 except ImportError:
     PROPHET_AVAILABLE = False
-    print("⚠ Prophet not available. Install with: pip install prophet")
+    # Avoid non-ASCII symbols to prevent Windows console encode errors
+    try:
+        print("Warning: Prophet not available. Install with: pip install prophet")
+    except Exception:
+        pass
 
 
 def train_prophet_model(df: pd.DataFrame, 
@@ -69,7 +73,7 @@ def train_prophet_model(df: pd.DataFrame,
     print(f"Training Prophet model on {len(df)} samples...")
     model.fit(df[['ds', 'y']])
     
-    print("✓ Prophet model trained successfully")
+    print("OK: Prophet model trained successfully")
     
     return model
 
@@ -134,7 +138,7 @@ def train_rf_model(X_train: pd.DataFrame,
         'importance': model.feature_importances_
     }).sort_values('importance', ascending=False)
     
-    print("✓ RandomForest model trained successfully")
+    print("OK: RandomForest model trained successfully")
     print(f"  Top 5 features: {', '.join(feature_importance['feature'].head().tolist())}")
     
     return {
@@ -205,7 +209,7 @@ def save_model(model: Any, model_name: str, model_type: str = "prophet") -> str:
     
     try:
         joblib.dump(model, model_path)
-        print(f"✓ Model saved to: {model_path}")
+        print(f"OK: Model saved to: {model_path}")
         return str(model_path)
     except Exception as e:
         raise Exception(f"Error saving model: {str(e)}")
@@ -229,7 +233,7 @@ def load_model(model_name: str) -> Any:
     
     try:
         model = joblib.load(model_path)
-        print(f"✓ Model loaded from: {model_path}")
+        print(f"OK: Model loaded from: {model_path}")
         return model
     except Exception as e:
         raise Exception(f"Error loading model: {str(e)}")

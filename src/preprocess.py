@@ -39,7 +39,7 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     # Encode categorical variables
     df = encode_categorical_features(df)
     
-    print(f"✓ Preprocessing complete. Shape: {df.shape}")
+    print(f"OK: Preprocessing complete. Shape: {df.shape}")
     
     return df
 
@@ -202,7 +202,7 @@ def prepare_ml_data(df: pd.DataFrame, target_col: str = 'Production_Tons',
     y_train = y.iloc[:split_idx]
     y_test = y.iloc[split_idx:]
     
-    print(f"✓ Train set: {len(X_train)} samples")
-    print(f"✓ Test set: {len(X_test)} samples")
+    print(f"OK: Train set: {len(X_train)} samples")
+    print(f"OK: Test set: {len(X_test)} samples")
     
     return X_train, X_test, y_train, y_test

@@ -123,6 +123,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+#### Python 3.13 and Prophet
+
+- The `requirements.txt` is updated for Python 3.13 compatibility.
+- Prophet is optional and may not have Windows wheels for Python 3.13 yet.
+- If you need Prophet, try installing it separately:
+
+```powershell
+# Optional: install Prophet (may require build tools)
+pip install "prophet>=1.1.5" --no-build-isolation
+```
+
+If Prophet fails to install, you can still use the RandomForest workflow and all app features that depend on it. The Streamlit app and RandomForest model work without Prophet.
+
 ---
 
 ## 📖 Usage

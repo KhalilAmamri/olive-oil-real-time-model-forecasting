@@ -166,7 +166,7 @@ def save_config(config: Dict[str, Any], filename: str = "config.json") -> None:
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=4)
     
-    print(f"✓ Config saved to: {config_path}")
+    print(f"OK: Config saved to: {config_path}")
 
 
 def load_config(filename: str = "config.json") -> Dict[str, Any]:

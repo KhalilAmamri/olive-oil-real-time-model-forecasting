@@ -25,7 +25,7 @@ def load_raw_data(file_path: Optional[str] = None) -> pd.DataFrame:
     
     try:
         df = pd.read_csv(file_path)
-        print(f"✓ Successfully loaded {len(df)} records from {file_path}")
+        print(f"OK: Successfully loaded {len(df)} records from {file_path}")
         return df
     except FileNotFoundError:
         raise FileNotFoundError(f"Data file not found at: {file_path}")
@@ -72,7 +72,7 @@ def load_forecast_results(forecast_name: str = "batch_forecast_latest.csv") -> p
     
     try:
         df = pd.read_csv(forecast_path)
-        print(f"✓ Successfully loaded forecast from {forecast_path}")
+        print(f"OK: Successfully loaded forecast from {forecast_path}")
         return df
     except FileNotFoundError:
         raise FileNotFoundError(f"Forecast file not found at: {forecast_path}")

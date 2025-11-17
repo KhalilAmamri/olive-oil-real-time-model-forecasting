@@ -77,9 +77,9 @@ def run_batch_forecast(
         # Save to CSV if requested
         if save_results:
             save_path = save_forecast_results(results_df, model_type)
-            print(f"\n✓ Batch forecast completed!")
-            print(f"✓ Results saved to: {save_path}")
-            print(f"✓ Total predictions: {len(results_df)}")
+            print(f"\nOK: Batch forecast completed!")
+            print(f"OK: Results saved to: {save_path}")
+            print(f"OK: Total predictions: {len(results_df)}")
         
         return results_df
     
