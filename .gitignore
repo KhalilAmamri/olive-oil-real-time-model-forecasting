@@ -114,8 +114,8 @@ dmypy.json
 .pyre/
 
 # Project specific
-models/*.pkl
-models/feature_names.pkl
+# models/*.pkl
+# models/feature_names.pkl
 data/processed/
 data/forecasts/
 *.log
