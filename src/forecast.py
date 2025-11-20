@@ -50,6 +50,18 @@ def predict_export(model_name: str,
     """
     model = load_model(model_name)
     
+    # Load feature names to ensure correct column order
+    project_root = Path(__file__).parent.parent
+    feature_names_path = project_root / "models" / "feature_names.pkl"
+    
+    if not feature_names_path.exists():
+        raise FileNotFoundError(f"Feature names file not found: {feature_names_path}")
+    
+    try:
+        feature_names = joblib.load(feature_names_path)
+    except Exception as e:
+        raise Exception(f"Error loading feature names: {str(e)}")
+    
     # Create feature dictionary
     features = prepare_forecast_features(
         date=date,
@@ -60,8 +72,9 @@ def predict_export(model_name: str,
         lag_7=lag_7
     )
     
-    # Convert to DataFrame with correct column order
+    # Convert to DataFrame and ensure correct column order
     feature_df = pd.DataFrame([features])
+    feature_df = feature_df[feature_names]  # Reorder columns to match training
     
     # Make prediction
     prediction = model.predict(feature_df)[0]

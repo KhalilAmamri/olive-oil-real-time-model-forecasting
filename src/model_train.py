@@ -69,11 +69,19 @@ def train_rf_model(X_train: pd.DataFrame,
     print("Model trained successfully!")
     print(f"Top 5 important features: {', '.join(feature_importance['feature'].head().tolist())}")
 
+    # Save feature names for prediction consistency
+    feature_names = list(X_train.columns)
+    project_root = Path(__file__).parent.parent
+    feature_names_path = project_root / "models" / "feature_names.pkl"
+    joblib.dump(feature_names, feature_names_path)
+    print(f"Feature names saved to: {feature_names_path}")
+
     return {
         'model': model,
         'train_metrics': train_metrics,
         'test_metrics': test_metrics,
-        'feature_importance': feature_importance
+        'feature_importance': feature_importance,
+        'feature_names': feature_names
     }
 
 
