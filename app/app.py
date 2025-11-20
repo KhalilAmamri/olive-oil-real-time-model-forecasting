@@ -1,6 +1,6 @@
 """
 Main Streamlit Application
-Entry point for the Olive Oil Production Forecasting System.
+Entry point for the Olive Oil Export Forecasting System.
 """
 
 import streamlit as st
@@ -17,7 +17,7 @@ def main():
     
     # Page configuration
     st.set_page_config(
-        page_title="Olive Oil Forecasting System",
+        page_title="Olive Oil Export Forecasting",
         page_icon="🫒",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -47,7 +47,7 @@ def main():
     """, unsafe_allow_html=True)
     
     # Header
-    st.markdown('<div class="main-header">🫒 Olive Oil Production Forecasting System</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">🫒 Olive Oil Export Forecasting System</div>', unsafe_allow_html=True)
     
     # Sidebar navigation
     st.sidebar.title("🧭 Navigation")
@@ -58,8 +58,7 @@ def main():
         "Select Page:",
         [
             "🏠 Home",
-            "⚡ Real-Time Forecast",
-            "📊 Batch Forecast Viewer",
+            "📊 Export Dashboard",
             "ℹ️ About"
         ]
     )
@@ -68,28 +67,20 @@ def main():
     st.sidebar.markdown("""
     ### 📌 Quick Guide
     
-    **Real-Time Forecast:**
-    - Instant predictions
-    - User inputs features
-    - Interactive results
-    
-    **Batch Forecast:**
-    - Generate full-year forecasts
-    - View saved predictions
-    - Compare scenarios
+    **Export Dashboard:**
+    - Analytics with filters (country, date, season)
+    - Interactive visualizations
+    - Real-time export predictions
+    - Historical comparisons
     """)
     
     # Route to pages
     if page == "🏠 Home":
         show_home_page()
-    elif page == "⚡ Real-Time Forecast":
-        # Import and show real-time forecast page
-        from pages import real_time_forecast
-        real_time_forecast.show()
-    elif page == "📊 Batch Forecast Viewer":
-        # Import and show batch forecast viewer
-        from pages import batch_forecast_viewer
-        batch_forecast_viewer.show()
+    elif page == "📊 Export Dashboard":
+        # Import and show unified dashboard
+        from pages import export_dashboard
+        export_dashboard.show()
     elif page == "ℹ️ About":
         show_about_page()
 
@@ -98,46 +89,46 @@ def show_home_page():
     """Display the home page."""
     
     st.markdown("""
-    ## Welcome to the Olive Oil Forecasting System 🫒
+    ## Welcome to the Olive Oil Export Forecasting System 🫒
     
-    This production-ready machine learning system provides **real-time** and **batch forecasting** 
-    capabilities for olive oil production analysis.
+    This production-ready machine learning system provides **comprehensive analytics** and **real-time forecasting** 
+    capabilities for olive oil export volume prediction.
+    
+    **What we predict:** Export volumes (tons) based on production data, prices, and market conditions.
     """)
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        ### ⚡ Real-Time Forecasting
+        ### 📊 Analytics Dashboard
         
         **What it does:**
-        - Generates instant predictions based on user inputs
-        - Provides immediate feedback (< 1 second)
-        - Interactive visualizations
-        - What-if scenario analysis
+        - Interactive data exploration with filters
+        - Time series visualizations
+        - Country comparisons and trends
+        - Historical export analysis
         
         **Best for:**
-        - Quick decision making
-        - Interactive exploration
-        - User-driven analysis
-        - Dashboard applications
+        - Understanding market patterns
+        - Comparing countries and seasons
+        - Data-driven insights
         """)
     
     with col2:
         st.markdown("""
-        ### 📊 Batch Forecasting
+        ### ⚡ Real-Time Predictions
         
         **What it does:**
-        - Generates forecasts for extended periods
-        - Processes thousands of predictions
-        - Saves results to CSV files
-        - Automated reporting
+        - Instant export volume predictions
+        - User-defined scenarios
+        - Revenue and profit estimates
+        - Historical comparisons
         
         **Best for:**
-        - Monthly/quarterly planning
-        - Long-term strategy
-        - Stakeholder reports
-        - Scheduled updates
+        - Quick decision making
+        - What-if analysis
+        - Planning and forecasting
         """)
     
     st.markdown("---")
@@ -198,7 +189,7 @@ def show_home_page():
     
     with col1:
         st.markdown("""
-        #### 📈 Prophet Model
+        #### 📈 Prophet Model (Optional)
         
         **Strengths:**
         - Excellent for time series with seasonality
@@ -206,15 +197,14 @@ def show_home_page():
         - Provides uncertainty intervals
         - Robust to outliers
         
-        **Best for:**
-        - Long-term trend forecasting
-        - Seasonal pattern analysis
-        - Uncertainty quantification
+        **Note:**
+        - Currently not installed (Python 3.13 compatibility)
+        - Can be added separately if needed
         """)
     
     with col2:
         st.markdown("""
-        #### 🌲 RandomForest Model
+        #### 🌲 RandomForest Model (Active)
         
         **Strengths:**
         - Captures non-linear relationships
@@ -222,10 +212,11 @@ def show_home_page():
         - Provides feature importance
         - No feature scaling needed
         
-        **Best for:**
-        - Multi-feature predictions
-        - Complex pattern recognition
-        - Feature analysis
+        **Current Use:**
+        - Predicts export volumes from production data
+        - Uses 26 engineered features
+        - R² Score: 0.79 (training)
+        - Top features: Export lag features, country encoding
         """)
     
     st.markdown("---")
@@ -234,12 +225,13 @@ def show_home_page():
     st.markdown("""
     ### 🚀 Getting Started
     
-    1. **Real-Time Forecast:** Use the sidebar to navigate to "⚡ Real-Time Forecast"
-    2. **Select Model:** Choose between Prophet or RandomForest
-    3. **Input Features:** Enter country, date, and other features
-    4. **View Results:** Get instant predictions with visualizations
+    1. **Explore Analytics:** Use the sidebar to navigate to "📊 Export Dashboard"
+    2. **Filter Data:** Select countries, date ranges, and seasons to explore patterns
+    3. **View Insights:** Analyze trends, comparisons, and market relationships
+    4. **Make Predictions:** Switch to the Real-Time Prediction tab for instant forecasts
+    5. **Enter Parameters:** Input production volume, price, and country for predictions
     
-    For batch forecasting, navigate to "📊 Batch Forecast Viewer" to see saved forecasts.
+    The dashboard combines data exploration with predictive analytics for comprehensive olive oil export analysis.
     """)
 
 
@@ -248,6 +240,12 @@ def show_about_page():
     
     st.markdown("""
     ## About This System
+    
+    ### 🎯 What This System Does
+    
+    This ML system predicts **olive oil export volumes** using production data, market prices, 
+    and historical patterns. It uses a RandomForest regression model trained on 7,500+ records 
+    from 42 countries spanning 2010-2024.
     
     ### 📦 Project Structure
     
@@ -281,10 +279,11 @@ def show_about_page():
     
     ### 📊 Features
     
-    - ✅ Real-time predictions with instant feedback
+    - ✅ Real-time export predictions with instant feedback
     - ✅ Batch forecasting for multiple periods
-    - ✅ Interactive visualizations
-    - ✅ Multiple model support (Prophet, RandomForest)
+    - ✅ Interactive visualizations with export trends
+    - ✅ RandomForest model with 26 engineered features
+    - ✅ Export ratio and revenue calculations
     - ✅ CSV export functionality
     - ✅ Production-ready code structure
     - ✅ Docker deployment ready
