@@ -50,7 +50,7 @@ def main():
 
         # 4. Save model
         print("\n💾 Saving model...")
-        save_model(rf_result['model'], "rf_olive_oil_model.pkl", model_type="rf")
+        save_model(rf_result['model'], "rf_olive_oil_model.pkl")
 
         # 5. Show results
         print("\n✅ Training Complete!")

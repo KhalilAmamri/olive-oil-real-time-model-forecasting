@@ -222,87 +222,44 @@ def scale_numerical_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def prepare_prophet_data(df: pd.DataFrame, 
-                         target_col: str = 'Production_Tons',
-                         country: Optional[str] = None) -> pd.DataFrame:
+def prepare_ml_data(df: pd.DataFrame,
+                    target_col: str = 'Export_Tons',
+                    test_size: float = 0.2) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     """
-    Prepare data in Prophet's required format (ds, y columns).
-    
-    Prophet expects:
-    - ds: Date column
-    - y: Target variable
-    
+    Prepare data for ML models with train/test split.
+
+    Splits data into training and testing sets for model evaluation.
+
     Args:
         df: Preprocessed DataFrame
-        target_col: Target column name
-        country: Optional country filter for single-country forecasting
-    
-    Returns:
-        DataFrame formatted for Prophet
-    """
-    df = df.copy()
-    
-    # Filter by country if specified
-    if country and 'Country' in df.columns:
-        df = df[df['Country'] == country]
-        print(f"Filtered to {country}: {len(df)} records")
-    
-    # Create Prophet format
-    prophet_df = pd.DataFrame({
-        'ds': df['Date'],
-        'y': df[target_col]
-    })
-    
-    # Prophet works better with aggregated data (daily/weekly/monthly)
-    # Aggregate to monthly for olive oil production
-    prophet_df = prophet_df.set_index('ds').resample('M').agg({'y': 'sum'}).reset_index()
-    print(f"Prophet data prepared: {len(prophet_df)} monthly records")
-    
-    return prophet_df
+        target_col: Target column name ('Export_Tons')
+        test_size: Fraction for testing (0.2 = 20%)
 
-
-def prepare_ml_data(df: pd.DataFrame, 
-                    target_col: str = 'Production_Tons',
-                    test_size: float = 0.2,
-                    country: Optional[str] = None) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    """
-    Prepare data for ML models (RandomForest, etc.) with train/test split.
-    
-    Args:
-        df: Preprocessed DataFrame
-        target_col: Target column name
-        test_size: Proportion for test set
-        country: Optional country filter
-    
     Returns:
         X_train, X_test, y_train, y_test
     """
     df = df.copy()
-    
-    # Filter by country if specified
-    if country and 'Country' in df.columns:
-        df = df[df['Country'] == country]
-        print(f"Filtered to {country}: {len(df)} records")
-    
+
     # Define feature columns (exclude non-features)
     exclude_cols = ['Date', 'Country', 'Season', target_col]
     feature_cols = [col for col in df.columns if col not in exclude_cols]
-    
-    # Remove rows with NaN
+
+    # Remove rows with missing values
     df = df.dropna()
-    
+
     X = df[feature_cols]
     y = df[target_col]
-    
-    # Time-based split (preserves temporal order)
+
+    # Time-based split (use recent data for testing)
     split_idx = int(len(df) * (1 - test_size))
-    
+
     X_train = X.iloc[:split_idx]
     X_test = X.iloc[split_idx:]
     y_train = y.iloc[:split_idx]
     y_test = y.iloc[split_idx:]
-    
-    print(f"Train set: {len(X_train):,} samples | Test set: {len(X_test):,} samples")
-    print(f"Features: {len(feature_cols)} ({', '.join(feature_cols[:5])}...)")
-    
+
+    print(f"Training set: {len(X_train):,} samples")
+    print(f"Test set: {len(X_test):,} samples")
+    print(f"Features: {len(feature_cols)} ({', '.join(feature_cols[:3])}...)")
+
     return X_train, X_test, y_train, y_test

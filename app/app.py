@@ -14,71 +14,28 @@ sys.path.append(str(project_root))
 
 def main():
     """Main application entry point."""
-    
+
     # Page configuration
     st.set_page_config(
         page_title="Olive Oil Export Forecasting",
         page_icon="🫒",
-        layout="wide",
-        initial_sidebar_state="expanded"
+        layout="wide"
     )
-    
-    # Custom CSS for better styling
-    st.markdown("""
-        <style>
-        .main-header {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2E7D32;
-            text-align: center;
-            padding: 1rem;
-            background: linear-gradient(90deg, #f0f2f6 0%, #ffffff 100%);
-            border-radius: 10px;
-            margin-bottom: 2rem;
-        }
-        .info-box {
-            background-color: #E8F5E9;
-            padding: 1rem;
-            border-radius: 5px;
-            border-left: 5px solid #2E7D32;
-            margin: 1rem 0;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    # Header
-    st.markdown('<div class="main-header">🫒 Olive Oil Export Forecasting System</div>', unsafe_allow_html=True)
+
+    # Simple header
+    st.title("🫒 Olive Oil Export Forecasting System")
     
     # Sidebar navigation
-    st.sidebar.title("🧭 Navigation")
-    st.sidebar.markdown("---")
-    
-    # Navigation options
+    st.sidebar.title("Navigation")
     page = st.sidebar.radio(
-        "Select Page:",
-        [
-            "🏠 Home",
-            "📊 Export Dashboard",
-            "ℹ️ About"
-        ]
+        "Go to:",
+        ["🏠 Home", "📊 Export Dashboard", "ℹ️ About"]
     )
-    
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("""
-    ### 📌 Quick Guide
-    
-    **Export Dashboard:**
-    - Analytics with filters (country, date, season)
-    - Interactive visualizations
-    - Real-time export predictions
-    - Historical comparisons
-    """)
-    
+
     # Route to pages
     if page == "🏠 Home":
         show_home_page()
     elif page == "📊 Export Dashboard":
-        # Import and show unified dashboard
         from pages import export_dashboard
         export_dashboard.show()
     elif page == "ℹ️ About":
@@ -87,49 +44,24 @@ def main():
 
 def show_home_page():
     """Display the home page."""
-    
+
     st.markdown("""
-    ## Welcome to the Olive Oil Export Forecasting System 🫒
-    
-    This production-ready machine learning system provides **comprehensive analytics** and **real-time forecasting** 
-    capabilities for olive oil export volume prediction.
-    
-    **What we predict:** Export volumes (tons) based on production data, prices, and market conditions.
+    ## Welcome! 🫒
+
+    This app predicts olive oil export volumes using machine learning.
+
+    **Features:**
+    - 📊 **Analytics**: Explore export trends and patterns
+    - ⚡ **Predictions**: Get instant export forecasts
+    - 🌍 **Countries**: Data from 42 countries (2010-2024)
+
+    **How to use:**
+    1. Go to "Export Dashboard" in the sidebar
+    2. Explore data in the Analytics tab
+    3. Make predictions in the Real-Time Prediction tab
     """)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        ### 📊 Analytics Dashboard
-        
-        **What it does:**
-        - Interactive data exploration with filters
-        - Time series visualizations
-        - Country comparisons and trends
-        - Historical export analysis
-        
-        **Best for:**
-        - Understanding market patterns
-        - Comparing countries and seasons
-        - Data-driven insights
-        """)
-    
-    with col2:
-        st.markdown("""
-        ### ⚡ Real-Time Predictions
-        
-        **What it does:**
-        - Instant export volume predictions
-        - User-defined scenarios
-        - Revenue and profit estimates
-        - Historical comparisons
-        
-        **Best for:**
-        - Quick decision making
-        - What-if analysis
-        - Planning and forecasting
-        """)
+
+    st.info("💡 First time? Start with the Analytics tab to explore the data!")
     
     st.markdown("---")
     
@@ -301,6 +233,24 @@ def show_about_page():
     
     **Version:** 1.0.0  
     **Last Updated:** November 2025
+    """)
+
+
+def show_about_page():
+    """Display the about page."""
+
+    st.markdown("""
+    ## About This App
+
+    **What it does:** Predicts olive oil export volumes using machine learning.
+
+    **Data:** 7,560 records from 42 countries (2010-2024)
+
+    **Model:** RandomForest Regressor with 26 features
+
+    **Built with:** Python, Streamlit, scikit-learn, pandas, plotly
+
+    **For beginners:** Simple code with clear comments and easy-to-use interface.
     """)
 
 
