@@ -19,8 +19,8 @@ from src.data_loader import load_olive_oil_data, get_available_countries
 
 
 def show():
-    st.title("🫒 Olive Oil Export Dashboard")
-    st.markdown("Real-time predictions and analytics for olive oil exports.")
+    st.title("📈 Olive Oil Export Analytics & Prediction Dashboard")
+    st.markdown("### Choose filters to display historical data, then enter values for instant predictions")
 
     # Check if model exists
     model_path = project_root / "models" / "rf_olive_oil_model.pkl"
